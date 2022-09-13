@@ -15,6 +15,6 @@ class Animal:
     @staticmethod
     def insertAnimal(name, description, image, latitude, longitude):
         animalId = SqlExecuter.executeQuery("INSERT INTO animal (name, description, latitude, longitude) VALUES ('{}', '{}', '{}', '{}');".format(name, description, latitude, longitude))
-        image.save(app.config["UPLOAD_FOLDER"] + "\\" + str(animalId) + ".jpg")
+        image.save(app.config["UPLOAD_FOLDER"] + "/" + str(animalId) + ".jpg")
         SqlExecuter.executeQuery("UPDATE animal SET imageSrc = '{}.jpg' WHERE id = {};".format(animalId, animalId))
         return animalId
