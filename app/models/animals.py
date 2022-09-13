@@ -18,3 +18,8 @@ class Animal:
         image.save(app.config["UPLOAD_FOLDER"] + "/" + str(animalId) + ".jpg")
         SqlExecuter.executeQuery("UPDATE animal SET imageSrc = '{}.jpg' WHERE id = {};".format(animalId, animalId))
         return animalId
+
+    @staticmethod
+    def getAnimaInfo(animalId):
+        animalId = SqlExecuter.getRowPacked("SELECT * FROM animal WHERE id = {};".format(animalId))
+        return animalId

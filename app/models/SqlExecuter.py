@@ -7,6 +7,21 @@ db = sqlite3.connect(app.config['DB_ANIMAL'],check_same_thread=False)
 class SqlExecuter:
 
     @staticmethod
+    def getRowPacked(query):
+        cursor = db.execute(query)
+        row = cursor.fetchone()
+        if row is None:
+            return {}
+        names = [description[0] for description in cursor.description]
+        cursor.close()
+        rowDict = {}
+        i = 0
+        for name in names:
+            rowDict[name] = row[i]
+            i+=1
+        return rowDict
+
+    @staticmethod
     def getRowsPacked(query):
         cursor = db.execute(query)
         allRows = cursor.fetchall()

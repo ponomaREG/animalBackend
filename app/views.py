@@ -11,6 +11,11 @@ def main():
 def getAnimals():
     return jsonify(Animal.getAllAnimals())
 
+@app.route("/animal/<animalId>", methods = ["GET"])
+def getAnimalInfo(animalId):
+    return jsonify(Animal.getAnimaInfo(animalId))
+
+
 @app.route("/animal/add", methods = ["POST"])
 def addAnimals():
     args = request.form
