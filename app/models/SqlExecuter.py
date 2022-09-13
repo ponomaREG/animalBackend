@@ -21,3 +21,11 @@ class SqlExecuter:
                 i+=1
             result.append(rowDict)
         return result
+
+    @staticmethod
+    def executeQuery(query):
+        cursor = db.execute(query)
+        lastrowid = cursor.lastrowid
+        db.commit()
+        cursor.close()
+        return lastrowid
