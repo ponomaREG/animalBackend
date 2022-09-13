@@ -21,5 +21,8 @@ class Animal:
 
     @staticmethod
     def getAnimaInfo(animalId):
-        animalId = SqlExecuter.getRowPacked("SELECT * FROM animal WHERE id = {};".format(animalId))
-        return animalId
+        animal = SqlExecuter.getRowPacked("SELECT * FROM animal WHERE id = {};".format(animalId))
+        
+        if animal["imageSrc"] is not None:
+            animal["imageSrc"] = app.config["URL_PIC"] + animal["imageSrc"]
+        return animal
