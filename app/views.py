@@ -19,5 +19,5 @@ def getAnimalInfo(animalId):
 @app.route("/animal/add", methods = ["POST"])
 def addAnimals():
     args = request.form
-    animalId = Animal.insertAnimal(args["name"], args["description"],request.files["image"], args["latitude"], args["longitude"])
+    animalId = Animal.insertAnimal(args["name"], args["description"],request.files.get("image", None), args["latitude"], args["longitude"])
     return jsonify({"newAnimalId" : animalId})
