@@ -1,6 +1,9 @@
+from os import abort
 from app import app
-from flask import render_template, jsonify, request
+from flask import render_template, jsonify, request, abort
 from app.models.animals import Animal
+from app.models.users import User
+
 
 @app.route("/", methods = ["GET"])
 def main():
@@ -19,5 +22,16 @@ def getAnimalInfo(animalId):
 @app.route("/animal/add", methods = ["POST"])
 def addAnimals():
     args = request.form
+    token = request.headers.get("token")
+    if (token is None or not User.checkUserToken(token)):
+        return abort(403)
     animalId = Animal.insertAnimal(args["name"], args["description"],request.files.get("image", None), args["latitude"], args["longitude"])
     return jsonify({"newAnimalId" : animalId})
+
+@app.route("/auth", methods = ["POST"])
+def authenticateUser():
+    phone = request.form["phone"]
+    otpCode = request.form["otpCode"]
+    return jsonify({"token" : User.authenticateUser(phone, otpCode)})
+
+    

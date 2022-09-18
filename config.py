@@ -1,5 +1,6 @@
 import os
 from datetime import timedelta
+import string
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -14,3 +15,5 @@ class BaseConfig(object):
     URL_PIC = URL + "static/img/"
     JSON_AS_ASCII = False
     DEBUG = True
+    AVAILABLE_SYMBOLS = string.ascii_letters + string.digits
+    TOKEN_LENGTH = 32
