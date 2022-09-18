@@ -25,13 +25,14 @@ def addAnimals():
     token = request.headers.get("token")
     if (token is None or not User.checkUserToken(token)):
         return abort(403)
-    animalId = Animal.insertAnimal(args["name"], args["description"],request.files.get("image", None), args["latitude"], args["longitude"])
+    animalId = Animal.insertAnimal(args["name"], args["description"],request.files.get("image", None), args["latitude"], args["longitude"], token)
     return jsonify({"newAnimalId" : animalId})
 
 @app.route("/auth", methods = ["POST"])
 def authenticateUser():
     phone = request.form["phone"]
+    login = request.form["login"]
     otpCode = request.form["otpCode"]
-    return jsonify({"token" : User.authenticateUser(phone, otpCode)})
+    return jsonify({"token" : User.authenticateUser(phone, otpCode, login)})
 
     
