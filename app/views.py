@@ -31,8 +31,27 @@ def addAnimals():
 @app.route("/auth", methods = ["POST"])
 def authenticateUser():
     phone = request.form["phone"]
-    login = request.form["login"]
+    login = request.form.get("login")
     otpCode = request.form["otpCode"]
     return jsonify({"token" : User.authenticateUser(phone, otpCode, login)})
+
+@app.route("/auth/phone", methods=["POST"])
+def checkIfPhoneExists():
+    phone = request.form["phone"]
+    isExists = User.checkUserPhone(phone)
+    if (isExists):
+        return jsonify({"status" : "Exists"})
+    else:
+        return jsonify({"status" : "Not exists"})
+
+
+@app.route("/auth/login", methods=["POST"])
+def checkIfLoginExists():
+    login = request.form["login"]
+    isExists = User.checkUserLogin(login)
+    if (isExists):
+        return jsonify({"status" : "Exists"})
+    else:
+        return jsonify({"status" : "Not exists"})
 
     

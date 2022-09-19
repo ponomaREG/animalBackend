@@ -1,3 +1,4 @@
+from cmath import log
 from lib2to3.pgen2 import token
 from operator import truediv
 from app.models.SqlExecuter import SqlExecuter
@@ -12,6 +13,8 @@ class User:
         if (len(existsPhone) > 0):
             SqlExecuter.executeQuery("UPDATE user SET token = '{}' WHERE phone = '{}';".format(newToken, phone))
         else:
+            if login is None:
+                raise Exception() 
             SqlExecuter.executeQuery("INSERT INTO user (phone, token, login) VALUES('{}', '{}', '{}');".format(phone, newToken, login))
         return newToken
 
@@ -29,4 +32,12 @@ class User:
         userRow = SqlExecuter.getRowsPacked("SELECT * FROM user WHERE token = '{}';".format(token))
         return len(userRow) > 0
 
-        
+    @staticmethod
+    def checkUserPhone(phone):
+        userRow = SqlExecuter.getRowPacked("SELECT * FROM user WHERE phone = '{}';".format(phone))
+        return len(userRow) > 0
+
+    @staticmethod
+    def checkUserLogin(login):
+        userRow = SqlExecuter.getRowPacked("SELECT * FROM user WHERE login = '{}';".format(login))
+        return len(userRow) > 0
